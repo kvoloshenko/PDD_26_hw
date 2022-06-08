@@ -1,6 +1,13 @@
 # PDD_26_hw
 Python: Django, Pagination, template filters, signals
 
+## update 2022.06.09
+Added Paginator for the function ‘history’ and page ‘history.html’.
+
+Added Paginator for the class ‘Hh_RequestListView’ and page req_list.html.
+
+![img_11.png](img_11.png)
+
 ## update 2022.06.07
 Added tests for the  views and its response codes.
 

@@ -9,7 +9,27 @@
  {% for request in requests %}
        <a class="nav-link" href="/result/{{ request.id }}/">{{ request.keywords }}  {{ request.id }}</a>
  {% endfor %}
-<!--table - таблица, tr-строка, td-столбец, th-заголовок-->
+        <!-- Pager -->
+
+        <div class="clearfix">
+            <div class="pagination">
+
+            <span class="step-links">
+                {% if requests.has_previous %}
+                    <a href="?page={{ requests.previous_page_number }}">previous</a>
+                {% endif %}
+
+                <span class="current">
+                    Page {{ requests.number }} of {{ requests.paginator.num_pages }}.
+                </span>
+
+                {% if requests.has_next %}
+                    <a class="step-links" href="?page={{ requests.next_page_number }}">next</a>
+                {% endif %}
+
+            </span>
+            </div>
+        </div>
 <br><br>
 
 {% endblock %}
