@@ -6,6 +6,9 @@ Added Paginator for the function ‘history’ and page ‘history.html’.
 
 Added Paginator for the class ‘Hh_RequestListView’ and page req_list.html.
 
+Added filter ‘|date:"SHORT_DATETIME_FORMAT"’at the page ‘req_detail.html’.
+
+
 ![img_11.png](img_11.png)
 
 ## update 2022.06.07
