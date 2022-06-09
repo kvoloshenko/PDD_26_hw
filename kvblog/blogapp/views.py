@@ -8,27 +8,42 @@ from django.urls import reverse, reverse_lazy
 from django.views.generic.base import ContextMixin
 import hhru.all_data as ad
 import pprint
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 
 # Create your views here.
 def main_view(request):
-    requests = Hh_Request.objects.all()
-    return render(request, 'blogapp/index.html', context={'requests': requests})
+    # requests = Hh_Request.objects.all()
+    # return render(request, 'blogapp/index.html', context={'requests': requests})
+    return render(request, 'blogapp/index.html')
 
 @login_required
 def history(request):
     # обратная сортировка
     requests = Hh_Request.objects.order_by('id').reverse()
-    responses = Hh_Response.objects.all()
-    return render(request, 'blogapp/history.html', context={'requests': requests, 'responses': responses})
+    paginator = Paginator(requests, 5)
+    # responses = Hh_Response.objects.all()
+
+    page = request.GET.get('page')
+    try:
+        requests = paginator.page(page)
+    except PageNotAnInteger:
+        # If page is not an integer, deliver first page.
+        requests = paginator.page(1)
+    except EmptyPage:
+        # If page is out of range (e.g. 9999), deliver last page of results.
+        requests = paginator.page(paginator.num_pages)
+
+    # return render(request, 'blogapp/history.html', context={'requests': requests, 'responses': responses})
+    return render(request, 'blogapp/history.html', context={'requests': requests})
 
 @login_required
 def create_result(request, id):
     # hh_request = Hh_Request.objects.last()
     hh_request = get_object_or_404(Hh_Request, id=id)
     responses = Hh_Response.objects.filter(request = hh_request)
-    return render(request, 'blogapp/result.html', context={'hh_request': hh_request, 'responses': responses})
 
+    return render(request, 'blogapp/result.html', context={'hh_request': hh_request, 'responses': responses})
 
 
 @login_required
@@ -92,6 +107,7 @@ def create_contacts(request):
 class Hh_RequestListView(LoginRequiredMixin, ListView):
     model = Hh_Request
     template_name = 'blogapp/req_list.html'
+    paginate_by = 5
 
     def test_func(self):
         # return self.request.user.is_superuser
@@ -118,6 +134,7 @@ class ResponsesContextMixin(ContextMixin):
         """
         hh_request = kwargs['object']
         responses = Hh_Response.objects.filter(request=hh_request)
+
         context = super().get_context_data(*args, **kwargs)
         context['responses'] = responses
         return context

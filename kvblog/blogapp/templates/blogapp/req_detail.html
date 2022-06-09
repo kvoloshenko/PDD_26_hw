@@ -17,8 +17,8 @@
         <tr>
             <td>{{object.id}}</td>
             <td>{{object.keywords}}</td>
-            <td>{{object.create}}</td>
-            <td>{{object.update}}</td>
+            <td>{{object.create|date:"SHORT_DATETIME_FORMAT"}}</td>
+            <td>{{object.update|date:"SHORT_DATETIME_FORMAT"}}</td>
             <td>{{object.user}}</td>
         </tr>
     </table>
