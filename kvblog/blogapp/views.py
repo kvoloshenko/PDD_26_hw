@@ -134,6 +134,7 @@ class ResponsesContextMixin(ContextMixin):
         """
         hh_request = kwargs['object']
         responses = Hh_Response.objects.filter(request=hh_request)
+
         context = super().get_context_data(*args, **kwargs)
         context['responses'] = responses
         return context
